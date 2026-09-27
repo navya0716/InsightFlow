@@ -1,0 +1,13 @@
+import axios from "axios";
+export const api=axios.create({baseURL:import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api"});
+export const getDataset=()=>api.get("/datasets");
+export const overview=(id:number)=>api.get("/analytics/overview",{params:{dataset_id:id}});
+export const trend=(id:number)=>api.get("/analytics/revenue-trend",{params:{dataset_id:id}});
+export const category=(id:number)=>api.get("/analytics/category-performance",{params:{dataset_id:id}});
+export const region=(id:number)=>api.get("/analytics/region-performance",{params:{dataset_id:id}});
+export const products=(id:number)=>api.get("/analytics/top-products",{params:{dataset_id:id}});
+export const upload=(file:File)=>{const f=new FormData();f.append("file",file);return api.post("/datasets/upload",f,{headers:{"Content-Type":"multipart/form-data"}})};
+export const forecast=(id:number)=>api.post("/ml/forecast",null,{params:{dataset_id:id,horizon:14}});
+export const segments=(id:number)=>api.post("/ml/segments",null,{params:{dataset_id:id}});
+export const anomalies=(id:number)=>api.post("/ml/anomalies",null,{params:{dataset_id:id}});
+export const ask=(dataset_id:number,question:string)=>api.post("/analyst/ask",{dataset_id,question});
